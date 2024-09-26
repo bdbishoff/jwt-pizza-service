@@ -1,7 +1,7 @@
 const request = require("supertest");
 const app = require("../service.js");
 const { Role } = require("../model/model.js");
-const { DB } = require("../database/database.js"); // Adjusted path
+const { DB } = require("../database/database.js");
 
 function randomName() {
   return Math.random().toString(36).substring(2, 12);
