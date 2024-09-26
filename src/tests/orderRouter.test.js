@@ -24,7 +24,7 @@ let adminUserToken;
 beforeAll(async () => {
   adminUser = await createAdminUser();
   expect(adminUser).toBeTruthy();
-  result = await request(app).put("/api/auth").send(adminUser);
+  const result = await request(app).put("/api/auth").send(adminUser);
   adminUserToken = result.body.token;
   expect(adminUserToken).toMatch(/^[a-zA-Z0-9\-_]*\.[a-zA-Z0-9\-_]*\.[a-zA-Z0-9\-_]*$/);
 });

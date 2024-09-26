@@ -24,6 +24,7 @@ test("login and logout", async () => {
 
   const { password, ...user } = { ...testUser, roles: [{ role: "diner" }] };
   expect(loginRes.body.user).toMatchObject(user);
+  expect(password).toBeTruthy();
 
   const token = loginRes.body.token;
 
