@@ -39,7 +39,6 @@ test("addMenuItem", async () => {
     .put("/api/order/menu")
     .set("Authorization", `Bearer ${adminUserToken}`)
     .send({ title: randomName(), description: randomName(), image: randomName(), price: 0.1 });
-  console.log(addMenuItemResult);
   expect(addMenuItemResult.status).toBe(200);
 
   const getMenuResult = await request(app).get("/api/order/menu");
