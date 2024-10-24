@@ -77,12 +77,9 @@ jobs:
           curl https://img.shields.io/badge/Coverage-$coverage_pct%25-$color -o coverageBadge.svg
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git stash -u              # Stash all changes, including untracked files
-          git pull origin main     # Pull the latest changes
-          git stash pop            # Restore our changes
-          git add coverageBadge.svg
-          git commit -m "chore: update coverage badge to ${coverage_pct}%"
-          git push origin main
+          git add .
+          git commit -m "generated"
+          git push
       - name: Create dist
         run: |
           mkdir dist
