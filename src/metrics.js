@@ -11,7 +11,7 @@ class Metrics {
     };
     this.totalRequests = 0;
     this.ACTIVE_USERS = 0;
-    this.SUCCESSFUL_AUTH_ATTEMPTS = 0; // Fixed typo in variable name
+    this.SUCCESSFUL_AUTH_ATTEMPTS = 0;
     this.FAILED_AUTH_ATTEMPTS = 0;
     this.PIZZAS_SOLD_SUCCESS = 0;
     this.PIZZAS_SOLD_FAILED = 0;
@@ -69,7 +69,7 @@ class Metrics {
         if (!response.ok) {
           console.error("Failed to push metrics data to Grafana for method:", metric);
         } else {
-          console.log(`Pushed ${metric}`);
+          // console.log(`Pushed ${metric}`);
         }
       })
       .catch((error) => {
@@ -79,7 +79,6 @@ class Metrics {
 
   sendMetricToGrafana(metricPrefix, metricName, metricValue) {
     const metric = `${metricPrefix},source=${config.metrics.source} ${metricName}=${metricValue}`;
-    console.log(metric);
 
     fetch(`${config.metrics.url}`, {
       method: "post",
@@ -90,7 +89,7 @@ class Metrics {
         if (!response.ok) {
           console.error("Failed to push metrics data to Grafana:", metric);
         } else {
-          console.log(`Pushed ${metric}`);
+          // console.log(`Pushed ${metric}`);
         }
       })
       .catch((error) => {
@@ -120,7 +119,7 @@ class Metrics {
   }
 
   incrementSuccessfulAuthAttempts() {
-    this.SUCCESFUL_AUTH_ATTEMPTS++;
+    this.SUCCESSFUL_AUTH_ATTEMPTS++;
   }
 
   incrementFailedAuthAttempts() {

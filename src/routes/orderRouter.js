@@ -7,6 +7,11 @@ const metrics = require("../metrics.js");
 
 const orderRouter = express.Router();
 
+// orderRouter.use((req, res, next) => {
+//   console.log(req.method, req.url);
+//   next();
+// });
+
 orderRouter.endpoints = [
   {
     method: "GET",
@@ -132,7 +137,6 @@ orderRouter.post(
       });
 
       const j = await r.json();
-      console.log("r: ", r, "j: ", j);
       const endTime = Date.now();
       const duration = endTime - startTime;
       metrics.incrementPizzaCreationLatency(duration);

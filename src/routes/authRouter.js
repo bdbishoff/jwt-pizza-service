@@ -104,23 +104,22 @@ authRouter.post(
 authRouter.put(
   "/",
   asyncHandler(async (req, res) => {
-    const startTime = new Date().now();
+    const startTime = Date.now();
     const { email, password } = req.body;
 
     try {
       const user = await DB.getUser(email, password);
       const auth = await setAuth(user);
+      metrics.incrementSuccessfulAuthAttempts();
+      metrics.incrementActiveUsers();
+      const endTime = Date.now();
+      const duration = endTime - startTime;
+      metrics.SERVICE_ENDPOINT_LATENCY.push(duration);
+      res.json({ user: user, token: auth });
     } catch (e) {
       metrics.incrementFailedAuthAttempts();
       return res.status(401).json({ message: e.message });
     }
-
-    metrics.incrementSuccessfulAuthAttempts();
-    metrics.incrementActiveUsers();
-    const endTime = new Date().now();
-    const duration = endTime - startTime;
-    metrics.SERVICE_ENDPOINT_LATENCY.push(duration);
-    res.json({ user: user, token: auth });
   })
 );
 
@@ -129,10 +128,10 @@ authRouter.delete(
   "/",
   authRouter.authenticateToken,
   asyncHandler(async (req, res) => {
-    const startTime = new Date().now();
+    const startTime = Date.now();
     clearAuth(req);
     metrics.decrementActiveUsers();
-    const endTime = new Date().now();
+    const endTime = Date.now();
     const duration = endTime - startTime;
     metrics.SERVICE_ENDPOINT_LATENCY.push(duration);
     res.json({ message: "logout successful" });
@@ -144,7 +143,7 @@ authRouter.put(
   "/:userId",
   authRouter.authenticateToken,
   asyncHandler(async (req, res) => {
-    const startTime = new Date().now();
+    const startTime = Date.now();
     const { email, password } = req.body;
     const userId = Number(req.params.userId);
     const user = req.user;
@@ -153,7 +152,7 @@ authRouter.put(
     }
 
     const updatedUser = await DB.updateUser(userId, email, password);
-    const endTime = new Date().now();
+    const endTime = Date.now();
     const duration = endTime - startTime;
     metrics.SERVICE_ENDPOINT_LATENCY.push(duration);
     res.json(updatedUser);
