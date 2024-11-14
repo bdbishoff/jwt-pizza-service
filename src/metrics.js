@@ -21,8 +21,6 @@ class Metrics {
 
     const timer = setInterval(() => {
       // Reset arrays after sending metrics to prevent memory leaks
-      this.PIZZA_CREATION_LATENCY = [];
-      this.SERVICE_ENDPOINT_LATENCY = [];
 
       this.sendRequestMetricToGrafana("request", "all", "total", this.totalRequests);
       Object.entries(this.methodCounts).forEach(([method, count]) => {
@@ -44,6 +42,9 @@ class Metrics {
 
       this.sendMetricToGrafana("cpu", "usage", this.getCpuUsagePercentage());
       this.sendMetricToGrafana("memory", "usage", this.getMemoryUsagePercentage());
+
+      this.PIZZA_CREATION_LATENCY = [];
+      this.SERVICE_ENDPOINT_LATENCY = [];
     }, 10000);
     timer.unref();
   }
