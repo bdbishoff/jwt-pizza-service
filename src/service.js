@@ -5,9 +5,11 @@ const franchiseRouter = require("./routes/franchiseRouter.js");
 const version = require("./version.json");
 const config = require("./config.js");
 const metrics = require("./metrics.js");
+const logger = require("./logger.js");
 
 const app = express();
 // look up bind metric later
+app.use(logger.httpLogger);
 app.use(metrics.incrementRequests.bind(metrics));
 app.use(express.json());
 app.use(setAuthUser);
